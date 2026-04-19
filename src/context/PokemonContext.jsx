@@ -17,23 +17,20 @@ export const PokemonProvider = ({ children }) => {
         const jsonPokemons = jsonResponse.data;
 
         const { data: list } = await axios.get(API_URL);
-        // console.log(list.results);
 
         const responses = await Promise.all(
           list.results.map((item) => axios.get(item.url)),
         );
-
-        // console.log("responses", responses);
 
         const apiPokemons = responses.map((item) => ({
           id: item.data.id,
           name: item.data.name,
           weight: item.data.weight,
           height: item.data.height,
-          base_expirience: item.data.base_experience,
+          base_experience: item.data.base_experience,
           sprite: item.data.sprites.front_default,
+          ability: item.data.abilities[0].ability.name,
         }));
-        // console.log("apiPokemons", apiPokemons);
 
         const combinedAllPokeomons = [
           ...jsonPokemons,

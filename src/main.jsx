@@ -5,13 +5,20 @@ import "./index.css";
 import App from "./App.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { PokemonProvider } from "./context/PokemonContext.jsx";
+import { SnackbarProvider } from "notistack";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <AuthProvider>
-      <PokemonProvider>
-        <App />
-      </PokemonProvider>
+      <SnackbarProvider
+        maxSnack={3}
+        anchorOrigin={{ vertical: "center", horizontal: "center" }}
+        autoHideDuration={3000}
+      >
+        <PokemonProvider>
+          <App />
+        </PokemonProvider>
+      </SnackbarProvider>
     </AuthProvider>
   </StrictMode>,
 );

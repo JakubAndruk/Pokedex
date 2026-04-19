@@ -6,7 +6,7 @@ import { Arena } from "./components/subpages/arena/Arena";
 import { Ranking } from "./components/subpages/ranking/Ranking";
 import { Edit } from "./components/subpages/edit/Edit";
 import { Favourites } from "./components/subpages/favourites/Favourites";
-import { Login } from "./components/subpages/login/Login";
+import { Login } from "./components/subpages/login/Login.jsx";
 import { Signup } from "./components/subpages/signup/Signup.jsx";
 import { Layout } from "./components/shared/Layout";
 import { Home } from "./components/subpages/home/Home";

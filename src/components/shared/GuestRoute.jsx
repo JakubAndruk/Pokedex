@@ -3,5 +3,5 @@ import { useAuthContext } from "../../context/AuthContext";
 
 export const GuestRoute = () => {
   const { user } = useAuthContext();
-  return user ? <Navigate to="/home" /> : <Outlet />;
+  return user ? <Navigate to="/" /> : <Outlet />;
 };

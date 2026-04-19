@@ -1,9 +1,10 @@
-import { PokemonProvider } from "../../../context/PokemonContext";
+import { PokemonList } from "../../shared/PokemonList";
 
 export const Home = () => {
   return (
-    <PokemonProvider>
+    <>
       <div>Home</div>
-    </PokemonProvider>
+      <PokemonList />
+    </>
   );
 };
