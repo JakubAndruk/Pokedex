@@ -6,6 +6,7 @@ import App from "./App.jsx";
 import { AuthProvider } from "./context/AuthContext.jsx";
 import { PokemonProvider } from "./context/PokemonContext.jsx";
 import { SnackbarProvider } from "notistack";
+import { FavouritesProvider } from "./context/FavouritesContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -16,7 +17,9 @@ createRoot(document.getElementById("root")).render(
         autoHideDuration={3000}
       >
         <PokemonProvider>
-          <App />
+          <FavouritesProvider>
+            <App />
+          </FavouritesProvider>
         </PokemonProvider>
       </SnackbarProvider>
     </AuthProvider>

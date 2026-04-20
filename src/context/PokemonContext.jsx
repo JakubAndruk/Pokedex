@@ -28,7 +28,9 @@ export const PokemonProvider = ({ children }) => {
           weight: item.data.weight,
           height: item.data.height,
           base_experience: item.data.base_experience,
-          sprite: item.data.sprites.front_default,
+          sprite:
+            item.data.sprites.other.dream_world.front_default ??
+            item.data.sprites.front_default,
           ability: item.data.abilities[0].ability.name,
         }));
 
@@ -44,7 +46,7 @@ export const PokemonProvider = ({ children }) => {
 
         setPokemons(combinedAllPokeomons);
 
-        console.log("combinedAllPokeomons", combinedAllPokeomons);
+        // console.log("combinedAllPokeomons", combinedAllPokeomons);
       } catch (error) {
         setError(error);
       } finally {

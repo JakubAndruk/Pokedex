@@ -12,7 +12,15 @@
       "email": "jan@mail.com",
       "password": "$2b$04$IjOEm3896VnN4EG9ac8foe/qdHg4n13TErbyMlWPufk4Wtgvt4R6C",
       "createdAt": "2026-04-19T08:18:14.624Z",
-      "id": 2
+      "id": 2,
+      "favourites": [
+        1,
+        4,
+        7,
+        14,
+        12,
+        9
+      ]
     }
   ],
   "pokemons": []

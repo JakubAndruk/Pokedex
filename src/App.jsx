@@ -6,10 +6,11 @@ import { Arena } from "./components/subpages/arena/Arena";
 import { Ranking } from "./components/subpages/ranking/Ranking";
 import { Edit } from "./components/subpages/edit/Edit";
 import { Favourites } from "./components/subpages/favourites/Favourites";
-import { Login } from "./components/subpages/login/Login.jsx";
-import { Signup } from "./components/subpages/signup/Signup.jsx";
+import { Login } from "./components/subpages/login/Login";
+import { Signup } from "./components/subpages/signup/Signup";
 import { Layout } from "./components/shared/Layout";
 import { Home } from "./components/subpages/home/Home";
+import { PokemonPage } from "./components/shared/PokemonPage";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/pokemon/:id" element={<PokemonPage />} />
 
           <Route element={<GuestRoute />}>
             <Route path="/login" element={<Login />} />

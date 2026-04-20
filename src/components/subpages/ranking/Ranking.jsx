@@ -1,3 +1,13 @@
+import { RankingTable } from "../../shared/RankingTable";
+import { usePokemonContext } from "../../../context/PokemonContext";
+
 export const Ranking = () => {
-  return <div>Ranking</div>;
+  const { pokemons, isLoading, error } = usePokemonContext();
+
+  return (
+    <>
+      <div>Ranking</div>
+      <RankingTable pokemons={pokemons} isLoading={isLoading} error={error} />
+    </>
+  );
 };

@@ -47,6 +47,7 @@ export const Signup = () => {
         email: data.email,
         password: hashedPassword,
         createdAt: new Date().toISOString(),
+        favourites: [],
       });
 
       login(newUser);

@@ -1,10 +1,9 @@
-import { usePokemonContext } from "../../context/PokemonContext";
 import { usePokemonList } from "../../hooks/usePokemonList";
 import { Button } from "./Button";
 import { PokemonCard } from "./PokemonCard";
+import { SearchBar } from "./SearchBar";
 
-export const PokemonList = () => {
-  const { pokemons, isLoading, error } = usePokemonContext();
+export const PokemonList = ({ pokemons, isLoading, error }) => {
   const {
     searchQuery,
     setSearchQuery,
@@ -18,17 +17,11 @@ export const PokemonList = () => {
   if (error) return <p>{error.message}</p>;
 
   return (
-    <div className="flex flex-wrap gap-4 justify-center">
+    <div className="flex flex-col gap-4 justify-center">
       <div className="flex justify-center ">
-        <input
-          type="text"
-          placeholder="Szukaj pokemona..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="border border-gray-800"
-        />
+        <SearchBar value={searchQuery} onChange={setSearchQuery} />
       </div>
-      <div className="flex flex-wrap p-4 gap-4 justify-left">
+      <div className="flex flex-wrap p-4 gap-4 justify-start">
         {paginatedPokemons.map((pokemon) => (
           <PokemonCard key={pokemon.id} data={pokemon} />
         ))}
