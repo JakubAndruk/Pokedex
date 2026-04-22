@@ -11,7 +11,7 @@ export const Favourites = () => {
     return (
       <p>
         Nie masz jeszcze ulubionych pokemonów. Kliknij ♥ na stronie pokemona,
-        aby dodać do ulubionych
+        aby dodać do ulubionych.
       </p>
     );
   }

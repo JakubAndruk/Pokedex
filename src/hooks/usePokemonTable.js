@@ -20,7 +20,7 @@ export const usePokemonTable = (pokemons) => {
         return sortConfig.direction === "asc" ? 1 : -1;
       return 0;
     });
-  });
+  }, [pokemons, sortConfig]);
 
   return { sortedPokemons, sortConfig, requestSort };
 };

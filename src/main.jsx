@@ -7,6 +7,7 @@ import { AuthProvider } from "./context/AuthContext.jsx";
 import { PokemonProvider } from "./context/PokemonContext.jsx";
 import { SnackbarProvider } from "notistack";
 import { FavouritesProvider } from "./context/FavouritesContext.jsx";
+import { ArenaProvider } from "./context/ArenaContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -18,7 +19,9 @@ createRoot(document.getElementById("root")).render(
       >
         <PokemonProvider>
           <FavouritesProvider>
-            <App />
+            <ArenaProvider>
+              <App />
+            </ArenaProvider>
           </FavouritesProvider>
         </PokemonProvider>
       </SnackbarProvider>

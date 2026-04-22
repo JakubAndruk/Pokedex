@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { usePokemonContext } from "../../context/PokemonContext";
 import { useAuthContext } from "../../context/AuthContext";
 import { FavouritesButton } from "./FavouritesButton";
+import { ArenaButton } from "./ArenaButton";
 
 export const PokemonPage = () => {
   const { id } = useParams();
@@ -17,6 +18,8 @@ export const PokemonPage = () => {
   return (
     <div className=" w-4/5 h-4/5 bg-linear-[-40deg,theme(colors.gray.300),theme(colors.gray.100),theme(colors.gray.300)] flex relative justify-items-center gap-8">
       {user && <FavouritesButton pokemon={pokemon} />}
+      {user && <ArenaButton pokemon={pokemon} />}
+
       <div className="flex flex-col justify-center">
         <img src={pokemon.sprite} alt={pokemon.name} className="h-96" />
       </div>

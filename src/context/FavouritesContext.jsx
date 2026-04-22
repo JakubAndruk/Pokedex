@@ -12,9 +12,7 @@ export const FavouritesProvider = ({ children }) => {
 
   useEffect(() => {
     if (!user) {
-      if (favourites.length > 0) {
-        setFavourites([]);
-      }
+      setFavourites([]);
       return;
     }
 

@@ -16,7 +16,7 @@ export const FavouritesButton = ({ pokemon }) => {
     <div
       onClick={handleFavourite}
       className={clsx(
-        "absolute top-0 right-2 cursor-pointer",
+        "absolute bottom-2 right-2 cursor-pointer",
         !isFavourites(pokemon.id) && "text-gray-900",
         isFavourites(pokemon.id) && "text-red-800",
       )}

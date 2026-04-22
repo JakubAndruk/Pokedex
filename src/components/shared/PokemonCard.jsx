@@ -1,9 +1,18 @@
 import { Link } from "react-router-dom";
+import { Placeholder } from "./Placeholder";
+import { RemoveFromArenaButton } from "./RemoveFromArenaButton";
+import { WinLoseStats } from "./WinLoseStats";
+import { useAuthContext } from "../../context/AuthContext";
 
-export const PokemonCard = ({ data }) => {
+export const PokemonCard = ({ data, showRemoveFromArena = false }) => {
+  const { user } = useAuthContext();
   return (
-    <Link to={`/pokemon/${data.id}`}>
-      <div className="relative w-55 h-85 bg-linear-[-40deg,theme(colors.gray.300),theme(colors.gray.100),theme(colors.gray.300)] flex flex-col justify-items-center transition-transform duration-200 hover:scale-105">
+    <Placeholder>
+      {showRemoveFromArena && <RemoveFromArenaButton pokemon={data} />}
+      {user && (data.wins > 0 || data.loses > 0) && (
+        <WinLoseStats data={data} />
+      )}
+      <Link to={`/pokemon/${data.id}`}>
         <div className="flex flex-col justify-center">
           <img src={data.sprite} alt={data.name} className="h-32" />
           <h2>{data.name}</h2>
@@ -26,7 +35,7 @@ export const PokemonCard = ({ data }) => {
             <h3>Ability</h3>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </Placeholder>
   );
 };

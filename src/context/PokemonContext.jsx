@@ -32,6 +32,9 @@ export const PokemonProvider = ({ children }) => {
             item.data.sprites.other.dream_world.front_default ??
             item.data.sprites.front_default,
           ability: item.data.abilities[0].ability.name,
+          fromApi: true,
+          wins: 0,
+          loses: 0,
         }));
 
         const combinedAllPokeomons = [
@@ -42,11 +45,11 @@ export const PokemonProvider = ({ children }) => {
                 (jsonPokemon) => jsonPokemon.id === apiPokemon.id,
               ),
           ),
-        ];
+        ].sort((a, b) => a.id - b.id);
 
         setPokemons(combinedAllPokeomons);
 
-        // console.log("combinedAllPokeomons", combinedAllPokeomons);
+        console.log("combinedAllPokeomons", combinedAllPokeomons);
       } catch (error) {
         setError(error);
       } finally {

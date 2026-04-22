@@ -1,4 +1,4 @@
-import { usePokemonTable } from "../../hooks/usePokemonTable";
+import { usePokemonTable } from "../../../hooks/usePokemonTable";
 
 const COLUMNS = [
   { key: "id", label: "#" },
@@ -7,7 +7,8 @@ const COLUMNS = [
   { key: "weight", label: "Waga" },
   { key: "base_experience", label: "Punkty doświadczenia" },
   { key: "ability", label: "Zdolność" },
-  { key: "fight_wins", label: "Liczba wygranych walk" },
+  { key: "wins", label: "Liczba wygranych walk" },
+  { key: "loses", label: "Liczba przegranych walk" },
 ];
 
 const getSortIcon = (sortConfig, key) => {
@@ -53,7 +54,7 @@ export const RankingTable = ({ pokemons, isLoading, error }) => {
               </td>
               {COLUMNS.map((column) => (
                 <td key={column.key} className="p-2 text-center">
-                  {pokemon[column.key]}
+                  {pokemon[column.key] ?? "-"}
                 </td>
               ))}
             </tr>

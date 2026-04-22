@@ -1,4 +1,4 @@
-import { RankingTable } from "../../shared/RankingTable";
+import { RankingTable } from "./RankingTable";
 import { usePokemonContext } from "../../../context/PokemonContext";
 
 export const Ranking = () => {

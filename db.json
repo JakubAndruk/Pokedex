@@ -15,13 +15,90 @@
       "id": 2,
       "favourites": [
         1,
-        4,
         7,
         14,
         12,
-        9
+        9,
+        104
+      ],
+      "arena": [
+        59,
+        65
       ]
     }
   ],
-  "pokemons": []
+  "pokemons": [
+    {
+      "id": 12,
+      "name": "butterfree",
+      "weight": 320,
+      "height": 11,
+      "base_experience": 228,
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/12.svg",
+      "ability": "compound-eyes",
+      "fromApi": false,
+      "wins": 5,
+      "loses": 0
+    },
+    {
+      "id": 1,
+      "name": "bulbasaur",
+      "weight": 69,
+      "height": 7,
+      "base_experience": 64,
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/1.svg",
+      "ability": "overgrow",
+      "fromApi": false,
+      "wins": 0,
+      "loses": 5
+    },
+    {
+      "id": 14,
+      "name": "kakuna",
+      "weight": 100,
+      "height": 6,
+      "base_experience": 82,
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/14.svg",
+      "ability": "shed-skin",
+      "fromApi": false,
+      "wins": 1,
+      "loses": 0
+    },
+    {
+      "id": 4,
+      "name": "charmander",
+      "weight": 85,
+      "height": 6,
+      "base_experience": 62,
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/4.svg",
+      "ability": "blaze",
+      "fromApi": false,
+      "wins": 0,
+      "loses": 1
+    },
+    {
+      "id": 59,
+      "name": "arcanine",
+      "weight": 1550,
+      "height": 19,
+      "base_experience": 214,
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/59.svg",
+      "ability": "intimidate",
+      "fromApi": false,
+      "wins": 2,
+      "loses": 0
+    },
+    {
+      "id": 65,
+      "name": "alakazam",
+      "weight": 480,
+      "height": 15,
+      "base_experience": 225,
+      "sprite": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/65.svg",
+      "ability": "synchronize",
+      "fromApi": false,
+      "wins": 0,
+      "loses": 2
+    }
+  ]
 }
