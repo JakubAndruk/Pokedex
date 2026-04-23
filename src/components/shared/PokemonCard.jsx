@@ -12,6 +12,7 @@ export const PokemonCard = ({ data, showRemoveFromArena = false }) => {
       {user && (data.wins > 0 || data.loses > 0) && (
         <WinLoseStats data={data} />
       )}
+
       <Link to={`/pokemon/${data.id}`}>
         <div className="flex flex-col justify-center">
           <img src={data.sprite} alt={data.name} className="h-32" />

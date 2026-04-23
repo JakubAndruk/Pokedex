@@ -11,6 +11,8 @@ import { Signup } from "./components/subpages/signup/Signup";
 import { Layout } from "./components/shared/Layout";
 import { Home } from "./components/subpages/home/Home";
 import { PokemonPage } from "./components/shared/PokemonPage";
+import { CreatePokemonForm } from "./components/subpages/edit/CreatePokemonForm";
+import { EditPokemonForm } from "./components/subpages/edit/EditPokemonForm";
 
 function App() {
   return (
@@ -30,6 +32,8 @@ function App() {
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/favourites" element={<Favourites />} />
             <Route path="/edit" element={<Edit />} />
+            <Route path="/edit/create" element={<CreatePokemonForm />} />
+            <Route path="/edit/:id" element={<EditPokemonForm />} />
           </Route>
         </Route>
       </Routes>

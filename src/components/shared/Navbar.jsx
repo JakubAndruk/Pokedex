@@ -2,6 +2,7 @@ import { Button } from "./Button";
 import { useAuthContext } from "../../context/AuthContext";
 import { NavItem } from "./NavItem";
 import { NavLink } from "react-router-dom";
+import pokemonLogo from "../../icons/pokemon-logo.svg";
 
 export const Navbar = () => {
   const { user, logout } = useAuthContext();
@@ -10,7 +11,7 @@ export const Navbar = () => {
     <nav className=" h-16 flex justify-between">
       <NavLink to={`/`}>
         <img
-          src="./src/icons/pokemon-logo.svg"
+          src={pokemonLogo}
           alt="pokemon-logo"
           className="h-16 w-auto block"
         />

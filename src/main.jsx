@@ -8,6 +8,7 @@ import { PokemonProvider } from "./context/PokemonContext.jsx";
 import { SnackbarProvider } from "notistack";
 import { FavouritesProvider } from "./context/FavouritesContext.jsx";
 import { ArenaProvider } from "./context/ArenaContext.jsx";
+import { ImagesProvider } from "./context/ImagesContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -18,11 +19,13 @@ createRoot(document.getElementById("root")).render(
         autoHideDuration={3000}
       >
         <PokemonProvider>
-          <FavouritesProvider>
-            <ArenaProvider>
-              <App />
-            </ArenaProvider>
-          </FavouritesProvider>
+          <ImagesProvider>
+            <FavouritesProvider>
+              <ArenaProvider>
+                <App />
+              </ArenaProvider>
+            </FavouritesProvider>
+          </ImagesProvider>
         </PokemonProvider>
       </SnackbarProvider>
     </AuthProvider>

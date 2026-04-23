@@ -1,8 +1,6 @@
 import clsx from "clsx";
 
 export const WinLoseStats = (data) => {
-  console.log("data", data);
-
   return (
     <div
       className={clsx(

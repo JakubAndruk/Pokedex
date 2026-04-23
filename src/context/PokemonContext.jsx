@@ -49,7 +49,7 @@ export const PokemonProvider = ({ children }) => {
 
         setPokemons(combinedAllPokeomons);
 
-        console.log("combinedAllPokeomons", combinedAllPokeomons);
+        // console.log("combinedAllPokeomons", combinedAllPokeomons);
       } catch (error) {
         setError(error);
       } finally {

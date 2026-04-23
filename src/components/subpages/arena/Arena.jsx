@@ -4,14 +4,11 @@ import { usePokemonContext } from "../../../context/PokemonContext";
 import { Button } from "../../shared/Button";
 import { PokemonCard } from "../../shared/PokemonCard";
 import { ArenaPlaceholder } from "./ArenaPlaceholder";
-import { useState } from "react";
-import axios from "axios";
-import { JSON_Server_URL } from "../../../services/api";
+import { pokemonToServer } from "../../../services/pokemonToServerService";
 
 export const Arena = () => {
   const { pokemons } = usePokemonContext();
-  const { arenaPokemons, addToArena, removeFromArena, isInArena, clearArena } =
-    useArenaContext();
+  const { arenaPokemons, clearArena } = useArenaContext();
 
   const pokemonsInArena = pokemons.filter((p) => arenaPokemons.includes(p.id));
 
@@ -30,53 +27,15 @@ export const Arena = () => {
     const winner = { ...(pokemonPower1 > pokemonPower2 ? slot1 : slot2) };
     const loser = { ...(pokemonPower1 > pokemonPower2 ? slot2 : slot1) };
 
-    const addStatsToWinner = async (winner) => {
-      const updatedWinner = {
-        ...winner,
-        base_experience: winner.base_experience + 10,
-        wins: (winner.wins ?? 0) + 1,
-        fromApi: false,
-      };
-      try {
-        if (winner.fromApi) {
-          await axios.post(`${JSON_Server_URL}/pokemons/`, updatedWinner);
-        } else {
-          await axios.patch(
-            `${JSON_Server_URL}/pokemons/${winner.id}`,
-            updatedWinner,
-          );
-        }
-      } catch (error) {
-        enqueueSnackbar(`Błąd aktualizacji danych: ${error.message}`, {
-          variant: "error",
-        });
-      }
-    };
+    pokemonToServer(winner, {
+      base_experience: winner.base_experience + 10,
+      wins: (winner.wins ?? 0) + 1,
+    });
 
-    const addStatsToLosser = async (loser) => {
-      const updatedLoser = {
-        ...loser,
-        loses: loser.loses + 1,
-        fromApi: false,
-      };
-      try {
-        if (loser.fromApi) {
-          await axios.post(`${JSON_Server_URL}/pokemons/`, updatedLoser);
-        } else {
-          await axios.patch(
-            `${JSON_Server_URL}/pokemons/${loser.id}`,
-            updatedLoser,
-          );
-        }
-      } catch (error) {
-        enqueueSnackbar(`Błąd aktualizacji danych: ${error.message}`, {
-          variant: "error",
-        });
-      }
-    };
+    pokemonToServer(loser, {
+      loses: (loser.loses ?? 0) + 1,
+    });
 
-    addStatsToWinner(winner);
-    addStatsToLosser(loser);
     return enqueueSnackbar(`Wygrywa ${winner.name}!`, { variant: "success" });
   };
 
