@@ -8,12 +8,14 @@ export const Edit = () => {
   const { pokemons, isLoading, error } = usePokemonContext();
 
   return (
-    <div>
-      <div>Edit</div>
-      <Link to={"/edit/create"}>
-        <Button>Stwórz pokemona</Button>
-      </Link>
+    <div className="flex flex-col gap-4 items-center">
       <div>
+        <Link to={"/edit/create"} className="flex flex-col w-114 gap-4">
+          <Button>Stwórz pokemona</Button>
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 gap-x-12">
         <LoadingErrorInfo isLoading={isLoading} error={error} />
 
         {!isLoading &&

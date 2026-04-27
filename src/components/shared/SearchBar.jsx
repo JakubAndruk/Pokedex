@@ -10,7 +10,7 @@ export const SearchBar = ({ value, onChange }) => {
         placeholder="Szukaj pokemona..."
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="border border-gray-800"
+        className="bg-gray-200 dark:bg-gray-600 h-10 w-110 p-2 rounded-xl"
       />
     </>
   );

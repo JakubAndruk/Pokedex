@@ -17,8 +17,6 @@ export const Favourites = () => {
   }
   return (
     <>
-      <div>Favourites</div>
-
       <PokemonList
         pokemons={favouritesPokemons}
         isLoading={isLoading}

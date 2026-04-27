@@ -6,11 +6,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../../shared/Button";
 import { LoadingErrorInfo } from "../../shared/LoadingErrorInfo";
 import { pokemonToServer } from "../../../services/pokemonToServerService";
-import { enqueueSnackbar } from "notistack";
+import { InputForm } from "../../shared/InputForm";
+import { PokemonName } from "../../shared/PokemonName";
+import SnackbarUtils from "../../../services/SnackBarUtils";
 
 export const EditPokemonForm = () => {
   const { id } = useParams();
-  const { pokemons, isLoading, error } = usePokemonContext();
+  const { pokemons, isLoading, error, refreshPokemons } = usePokemonContext();
   const navigate = useNavigate();
   const pokemon = pokemons.find((p) => p.id === Number(id));
   const {
@@ -28,60 +30,56 @@ export const EditPokemonForm = () => {
 
   if (!pokemon) return <LoadingErrorInfo error={error} isLoading={isLoading} />;
 
-  console.log("pokemon", pokemon);
+  const onSubmit = async (data) => {
+    console.log("onSubmit wywołany", data);
 
-  const onSubmit = (data) => {
-    pokemonToServer(pokemon, data);
-    enqueueSnackbar(`Zmieniono atrybuty ${pokemon.name}`, {
-      variant: "success",
-    });
-    console.log("data", data);
-    console.log("errors", errors);
-    navigate(`/`);
+    await pokemonToServer(pokemon, data);
+    await refreshPokemons();
+    SnackbarUtils.success(
+      `Zmieniono atrybuty ${pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}`,
+    );
+    navigate("/");
   };
 
   return (
     <div>
-      <div>EditPokemonForm</div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex justify-center gap-4">
-          <label htmlFor="weight">Waga:</label>
-          <input
-            id="weight"
-            type="number"
-            {...register("weight")}
-            className="border border-gray-800"
-          />
-          {errors.weight && (
-            <p className="text-red-800">{errors.weight.message}</p>
-          )}
-        </div>
-        <div className="flex justify-center gap-4">
-          <label htmlFor="height">Wzrost:</label>
-          <input
-            id="height"
-            type="number"
-            {...register("height")}
-            className="border border-gray-800"
-          />
-          {errors.height && (
-            <p className="text-red-800">{errors.height.message}</p>
-          )}
-        </div>
-        <div className="flex justify-center gap-4">
-          <label htmlFor="base_experience">Doświadczenie:</label>
-          <input
-            id="base_experience"
-            type="number"
-            {...register("base_experience")}
-            className="border border-gray-800"
-          />
-          {errors.base_experience && (
-            <p className="text-red-800">{errors.base_experience.message}</p>
-          )}
-        </div>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="relative flex flex-col gap-4 items-center"
+      >
+        <PokemonName data={pokemon} />
+        <img
+          src={pokemon.sprite}
+          alt={pokemon.name}
+          className="absolute top-8
+           me-120 h-38"
+        />
+        <InputForm
+          id="weight"
+          type="number"
+          errors={errors}
+          register={register}
+        >
+          Waga:
+        </InputForm>
+        <InputForm
+          id="height"
+          type="number"
+          errors={errors}
+          register={register}
+        >
+          Wzrost:
+        </InputForm>
+        <InputForm
+          id="base_experience"
+          type="number"
+          errors={errors}
+          register={register}
+        >
+          Doświadczenie:
+        </InputForm>
 
-        <Button type="submit" disabled={isSubmitting}>
+        <Button type="submit" disabled={isSubmitting} className="w-185">
           Zapisz
         </Button>
       </form>

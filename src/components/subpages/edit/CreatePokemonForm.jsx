@@ -5,14 +5,15 @@ import { usePokemonContext } from "../../../context/PokemonContext";
 import { Button } from "../../shared/Button";
 import { LoadingErrorInfo } from "../../shared/LoadingErrorInfo";
 import { savePokemonToServer } from "../../../services/pokemonToServerService";
-import { enqueueSnackbar } from "notistack";
 import { useImagesContext } from "../../../context/ImagesContext";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
+import { InputForm } from "../../shared/InputForm";
+import SnackbarUtils from "../../../services/SnackBarUtils";
 
 export const CreatePokemonForm = () => {
-  const { pokemons } = usePokemonContext();
+  const { pokemons, refreshPokemons } = usePokemonContext();
   const { images, isImagesLoading, imagesError } = useImagesContext();
   const [previewNumber, setPreviewNumber] = useState(151);
 
@@ -34,9 +35,6 @@ export const CreatePokemonForm = () => {
   });
 
   const nextID = Math.max(...pokemons.map((p) => p.id)) + 1;
-  //   console.log("images", images);
-
-  //   console.log("previewUrl", previewUrl);
 
   const previewUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${previewNumber}.svg`;
 
@@ -49,17 +47,14 @@ export const CreatePokemonForm = () => {
 
   const isCurrentSpriteUsed = usedSpriteIds.includes(previewNumber);
 
-  const onSubmit = (data, event) => {
-    event.preventDefault();
-
+  const onSubmit = async (data) => {
     const nameExist = pokemons.some(
       (p) => p.name.toLowerCase() === data.name.toLowerCase(),
     );
 
     if (nameExist) {
-      enqueueSnackbar(
+      SnackbarUtils.error(
         `Pokemon ${data.name} już istnieje! Zmień nazwę pokemona`,
-        { variant: "error" },
       );
       return;
     }
@@ -73,13 +68,9 @@ export const CreatePokemonForm = () => {
       wins: 0,
       loses: 0,
     };
-    savePokemonToServer(newPokemon);
-
-    enqueueSnackbar(`Nowy pokemon ${newPokemon.name} został dodany`, {
-      variant: "success",
-    });
-    console.log("usedSpriteIds", usedSpriteIds);
-    console.log("newPokemon", newPokemon);
+    await savePokemonToServer(newPokemon);
+    await refreshPokemons();
+    SnackbarUtils.success(`Nowy pokemon ${newPokemon.name} został dodany`);
     reset();
     navigate(`/`);
   };
@@ -96,71 +87,76 @@ export const CreatePokemonForm = () => {
 
   return (
     <div>
-      <div>CreatePokemonForm</div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="flex justify-center gap-4">
-          <label htmlFor="name">Nazwa:</label>
-          <input
-            id="name"
-            type="text"
-            {...register("name")}
-            className="border border-gray-800"
-          />
-          {errors.name && <p className="text-red-800">{errors.name.message}</p>}
-        </div>
-        <div className="flex justify-center gap-4">
-          <label htmlFor="weight">Waga:</label>
-          <input
-            id="weight"
-            type="number"
-            {...register("weight")}
-            className="border border-gray-800"
-          />
-          {errors.weight && (
-            <p className="text-red-800">{errors.weight.message}</p>
-          )}
-        </div>
-        <div className="flex justify-center gap-4">
-          <label htmlFor="height">Wzrost:</label>
-          <input
-            id="height"
-            type="number"
-            {...register("height")}
-            className="border border-gray-800"
-          />
-          {errors.height && (
-            <p className="text-red-800">{errors.height.message}</p>
-          )}
-        </div>
-        <div className="flex justify-center gap-4">
-          <label htmlFor="base_experience">Doświadczenie:</label>
-          <input
-            id="base_experience"
-            type="number"
-            {...register("base_experience")}
-            className="border border-gray-800"
-          />
-          {errors.base_experience && (
-            <p className="text-red-800">{errors.base_experience.message}</p>
-          )}
-        </div>
-        <div className="flex justify-center gap-4">
-          <label htmlFor="sprites">Awatar:</label>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <InputForm id="name" type="text" errors={errors} register={register}>
+          Nazwa:
+        </InputForm>
+        <InputForm
+          id="weight"
+          type="number"
+          errors={errors}
+          register={register}
+        >
+          Waga:
+        </InputForm>
+        <InputForm
+          id="height"
+          type="number"
+          errors={errors}
+          register={register}
+        >
+          Wzrost:
+        </InputForm>
+        <InputForm
+          id="base_experience"
+          type="number"
+          errors={errors}
+          register={register}
+        >
+          Doświadczenie:
+        </InputForm>
 
-          <Button onClick={prevImage}>Prev</Button>
-          <img
-            src={previewUrl}
-            className={clsx("h-24", { grayscale: isCurrentSpriteUsed })}
-          />
-          <Button onClick={nextImage}>Next</Button>
-          {isCurrentSpriteUsed && (
-            <p className="text-red-800">Ta grafika jest już zajęta</p>
-          )}
+        <div className="flex justify-center items-center gap-4">
+          <label htmlFor="sprites" className="flex w-90 justify-end">
+            Awatar:
+          </label>
+          <div className="relative flex w-90 justify-around items-center">
+            <Button
+              onClick={prevImage}
+              className="w-10 text-3xl flex items-center"
+            >
+              ◂
+            </Button>
+            <img
+              src={previewUrl}
+              className={clsx(
+                "h-20 w-22",
+                { grayscale: isCurrentSpriteUsed },
+                isCurrentSpriteUsed ? "opacity-25" : "",
+              )}
+            />
+            <Button
+              onClick={nextImage}
+              className="w-10 text-3xl flex items-center"
+            >
+              ▸
+            </Button>
+            {isCurrentSpriteUsed && (
+              <p className="text-red-800 absolute top-7">
+                Ta grafika jest już zajęta
+              </p>
+            )}
+          </div>
         </div>
-
-        <Button type="submit" disabled={isSubmitting || isCurrentSpriteUsed}>
-          Stwórz pokemona!
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            type="submit"
+            disabled={isSubmitting || isCurrentSpriteUsed}
+            className="w-180"
+          >
+            Stwórz pokemona!
+          </Button>
+        </div>
       </form>
     </div>
   );

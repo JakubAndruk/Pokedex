@@ -1,65 +1,76 @@
 import axios from "axios";
-import { enqueueSnackbar } from "notistack";
 import { createContext, useContext, useEffect, useState } from "react";
-import { JSON_Server_URL } from "../services/api";
+import { USERS_URL } from "../services/api";
 import { useAuthContext } from "./AuthContext";
+import SnackbarUtils from "../services/SnackBarUtils";
 
 const FavouritesContext = createContext();
 
 export const FavouritesProvider = ({ children }) => {
-  const { user } = useAuthContext();
   const [favourites, setFavourites] = useState([]);
+  const { user } = useAuthContext();
+
+  const currentUserURL = user ? `${USERS_URL}/${user.id}` : null;
 
   useEffect(() => {
-    if (!user) {
-      setFavourites([]);
-      return;
-    }
+    if (!user) return;
+
+    let cancelled = false;
 
     const fetchFavourites = async () => {
       try {
-        const response = await axios.get(`${JSON_Server_URL}/users/${user.id}`);
-        setFavourites(response.data.favourites ?? []);
+        const response = await axios.get(currentUserURL);
+        if (!cancelled) {
+          setFavourites(response.data.favourites ?? []);
+        }
       } catch (error) {
-        enqueueSnackbar(`Błąd pobierania: ${error.message}`);
+        if (!cancelled) {
+          SnackbarUtils.error(`Błąd pobierania: ${error.message}`);
+        }
       }
     };
 
     fetchFavourites();
+
+    return () => {
+      cancelled = true;
+      setFavourites([]);
+    };
   }, [user]);
 
-  const addFavourites = async (pokemonId) => {
+  const addToFavourites = async (pokemonId) => {
     try {
       const updatedFavourites = [...favourites, pokemonId];
-      await axios.patch(`${JSON_Server_URL}/users/${user.id}`, {
+      await axios.patch(currentUserURL, {
         favourites: updatedFavourites,
       });
       setFavourites(updatedFavourites);
     } catch (error) {
-      enqueueSnackbar(`Błąd dodawania: ${error.message}`, {
-        variant: "error",
-      });
+      SnackbarUtils.error(`Błąd dodawania: ${error.message}`);
     }
   };
 
-  const removeFavourites = async (pokemonId) => {
+  const removeFromFavourites = async (pokemonId) => {
     try {
       const updatedFavourites = favourites.filter((id) => id !== pokemonId);
-      await axios.patch(`${JSON_Server_URL}/users/${user.id}`, {
+      await axios.patch(currentUserURL, {
         favourites: updatedFavourites,
       });
       setFavourites(updatedFavourites);
     } catch (error) {
-      enqueueSnackbar(`Błąd usuwania: ${error.message}`, {
-        variant: "error",
-      });
+      SnackbarUtils.error(`Błąd usuwania: ${error.message}`);
     }
   };
-  const isFavourites = (pokemonId) => favourites.includes(pokemonId);
+  const isInFavourites = (pokemonId) => favourites.includes(pokemonId);
 
   return (
     <FavouritesContext.Provider
-      value={{ favourites, addFavourites, removeFavourites, isFavourites }}
+      value={{
+        favourites,
+        addToFavourites,
+        removeFromFavourites,
+        isInFavourites,
+      }}
     >
       {children}
     </FavouritesContext.Provider>

@@ -6,7 +6,6 @@ export const Ranking = () => {
 
   return (
     <>
-      <div>Ranking</div>
       <RankingTable pokemons={pokemons} isLoading={isLoading} error={error} />
     </>
   );

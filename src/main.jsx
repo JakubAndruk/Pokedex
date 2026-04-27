@@ -9,25 +9,26 @@ import { SnackbarProvider } from "notistack";
 import { FavouritesProvider } from "./context/FavouritesContext.jsx";
 import { ArenaProvider } from "./context/ArenaContext.jsx";
 import { ImagesProvider } from "./context/ImagesContext.jsx";
+import { ThemeProvider } from "./context/ThemeContext.jsx";
+import { SnackbarUtilsConfigurator } from "./services/SnackBarUtils.js";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <AuthProvider>
-      <SnackbarProvider
-        maxSnack={3}
-        anchorOrigin={{ vertical: "center", horizontal: "center" }}
-        autoHideDuration={3000}
-      >
-        <PokemonProvider>
-          <ImagesProvider>
-            <FavouritesProvider>
-              <ArenaProvider>
-                <App />
-              </ArenaProvider>
-            </FavouritesProvider>
-          </ImagesProvider>
-        </PokemonProvider>
-      </SnackbarProvider>
-    </AuthProvider>
+    <SnackbarProvider maxSnack={3} autoHideDuration={5000}>
+      <SnackbarUtilsConfigurator />
+      <ThemeProvider>
+        <AuthProvider>
+          <PokemonProvider>
+            <ImagesProvider>
+              <FavouritesProvider>
+                <ArenaProvider>
+                  <App />
+                </ArenaProvider>
+              </FavouritesProvider>
+            </ImagesProvider>
+          </PokemonProvider>
+        </AuthProvider>
+      </ThemeProvider>
+    </SnackbarProvider>
   </StrictMode>,
 );

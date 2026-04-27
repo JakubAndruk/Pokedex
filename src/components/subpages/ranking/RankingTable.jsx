@@ -1,4 +1,5 @@
 import { usePokemonTable } from "../../../hooks/usePokemonTable";
+import SnackbarUtils from "../../../services/SnackBarUtils";
 
 const COLUMNS = [
   { key: "id", label: "#" },
@@ -12,22 +13,22 @@ const COLUMNS = [
 ];
 
 const getSortIcon = (sortConfig, key) => {
-  if (sortConfig.key !== key) return "↕";
-  return sortConfig.direction === "asc" ? "↑" : "↓";
+  if (sortConfig.key !== key) return " ↕";
+  return sortConfig.direction === "asc" ? " ↑" : " ↓";
 };
 
 export const RankingTable = ({ pokemons, isLoading, error }) => {
   const { sortedPokemons, sortConfig, requestSort } = usePokemonTable(pokemons);
 
   if (isLoading) return <p>Ładowanie...</p>;
-  if (error) return <p>{error.message}</p>;
+  if (error) return SnackbarUtils.success(`{error.message}`);
 
   return (
     <div>
       <table className="w-full border-collapse text-sm">
         <thead>
           <tr>
-            <th>Sprite</th>
+            <th></th>
             {COLUMNS.map((column) => (
               <th
                 key={column.key}

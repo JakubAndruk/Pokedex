@@ -3,6 +3,10 @@ import { usePokemonContext } from "../../context/PokemonContext";
 import { useAuthContext } from "../../context/AuthContext";
 import { FavouritesButton } from "./FavouritesButton";
 import { ArenaButton } from "./ArenaButton";
+import { Placeholder } from "./Placeholder";
+import { PokemonName } from "./PokemonName";
+import { PokemonInfo } from "./PokemonInfo";
+import { Button } from "./Button";
 
 export const PokemonPage = () => {
   const { id } = useParams();
@@ -16,34 +20,24 @@ export const PokemonPage = () => {
   if (!pokemon) return <div>Pokemon nie znaleziony</div>;
 
   return (
-    <div className=" w-4/5 h-4/5 bg-linear-[-40deg,theme(colors.gray.300),theme(colors.gray.100),theme(colors.gray.300)] flex relative justify-items-center gap-8">
-      {user && <FavouritesButton pokemon={pokemon} />}
-      {user && <ArenaButton pokemon={pokemon} />}
+    <div className="flex flex-col items-center gap-4">
+      <Placeholder className={"w-4/5 h-120 flex relative justify-around gap-8"}>
+        {user && <FavouritesButton pokemon={pokemon} />}
+        {user && <ArenaButton pokemon={pokemon} />}
 
-      <div className="flex flex-col justify-center">
-        <img src={pokemon.sprite} alt={pokemon.name} className="h-96" />
-      </div>
-      <div className="flex flex-col gap-8 justify-center">
-        <h2>{pokemon.name}</h2>
-        <div className="flex flex-wrap gap-8 justify-center">
-          <div>
-            <div>{pokemon.height}</div>
-            <h3>Height</h3>
-          </div>
-          <div>
-            <div>{pokemon.base_experience}</div>
-            <h3>Base experience</h3>
-          </div>
-          <div>
-            <div>{pokemon.weight}</div>
-            <h3>Weight</h3>
-          </div>
-          <div>
-            <div>{pokemon.ability}</div>
-            <h3>Ability</h3>
+        <div className="flex flex-col justify-center">
+          <img src={pokemon.sprite} alt={pokemon.name} className="h-96" />
+        </div>
+        <div className="flex flex-col gap-8 justify-center items-center">
+          <PokemonName data={pokemon} />
+          <div className="grid grid-cols-2 gap-16 justify-center">
+            <PokemonInfo data={pokemon} props="height" />
+            <PokemonInfo data={pokemon} props="base_experience" />
+            <PokemonInfo data={pokemon} props="weight" />
+            <PokemonInfo data={pokemon} props="ability" />
           </div>
         </div>
-      </div>
+      </Placeholder>
     </div>
   );
 };

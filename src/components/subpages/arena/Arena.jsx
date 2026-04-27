@@ -1,71 +1,105 @@
-import { enqueueSnackbar } from "notistack";
 import { useArenaContext } from "../../../context/ArenaContext";
 import { usePokemonContext } from "../../../context/PokemonContext";
 import { Button } from "../../shared/Button";
 import { PokemonCard } from "../../shared/PokemonCard";
 import { ArenaPlaceholder } from "./ArenaPlaceholder";
 import { pokemonToServer } from "../../../services/pokemonToServerService";
+import SnackbarUtils from "../../../services/SnackBarUtils";
+
+import { useEffect, useState } from "react";
+import clsx from "clsx";
+
+const FIGHT_TRANSITION = "transition-opacity duration-500";
 
 export const Arena = () => {
-  const { pokemons } = usePokemonContext();
+  const [isAfterFight, setIsAfterFight] = useState(false);
+  const [fightResult, setFightResult] = useState(null);
+  const [animatedResult, setAnimatedResult] = useState(null);
+
+  const { pokemons, refreshPokemons } = usePokemonContext();
   const { arenaPokemons, clearArena } = useArenaContext();
 
   const pokemonsInArena = pokemons.filter((p) => arenaPokemons.includes(p.id));
+  const [slot1, slot2] = pokemonsInArena;
 
-  const slot1 = pokemonsInArena[0] ?? null;
-  const slot2 = pokemonsInArena[1] ?? null;
-  // console.log("slot2", slot2);
-  // console.log("slot1", slot1);
+  useEffect(() => {
+    if (fightResult === null) {
+      setAnimatedResult(null);
+      return;
+    }
 
-  const handleFight = () => {
-    const pokemonPower1 = slot1.base_experience * slot1.weight;
-    const pokemonPower2 = slot2.base_experience * slot2.weight;
+    const timer = setTimeout(() => setAnimatedResult(fightResult), 50);
+    return () => clearTimeout(timer);
+  }, [fightResult]);
 
-    if (pokemonPower1 === pokemonPower2)
-      return enqueueSnackbar("Remis!", { variant: "success" });
+  const handleFight = async () => {
+    const getPower = (p) => p.base_experience * p.weight;
 
-    const winner = { ...(pokemonPower1 > pokemonPower2 ? slot1 : slot2) };
-    const loser = { ...(pokemonPower1 > pokemonPower2 ? slot2 : slot1) };
+    if (getPower(slot1) === getPower(slot2))
+      return SnackbarUtils.success(`Remis!`);
 
-    pokemonToServer(winner, {
+    const [winner, loser] =
+      getPower(slot1) > getPower(slot1) ? [slot1, slot2] : [slot2, slot1];
+
+    await pokemonToServer(winner, {
       base_experience: winner.base_experience + 10,
       wins: (winner.wins ?? 0) + 1,
     });
 
-    pokemonToServer(loser, {
+    await pokemonToServer(loser, {
       loses: (loser.loses ?? 0) + 1,
     });
 
-    return enqueueSnackbar(`Wygrywa ${winner.name}!`, { variant: "success" });
+    await refreshPokemons();
+    setFightResult(winner.id);
+    SnackbarUtils.success(`Wygrywa ${winner.name}!`);
+    setIsAfterFight(true);
+  };
+
+  const getCardClass = (pokemon) => {
+    if (!animatedResult) return "opacity-100";
+    return pokemon.id === animatedResult
+      ? "opacity-100 scale-120"
+      : "opacity-10";
   };
 
   return (
-    <>
-      <div>Arena</div>
-      <div className="flex flex-wrap p-4 gap-4 justify-start">
+    <div className="flex flex-col p-4 items-center">
+      <div className="flex p-4 gap-4 justify-center items-center">
         {slot1 ? (
-          <PokemonCard data={slot1} showRemoveFromArena={true} />
+          <PokemonCard
+            data={slot1}
+            showRemoveFromArena={true}
+            className={clsx(FIGHT_TRANSITION, getCardClass(slot1))}
+          />
         ) : (
           <ArenaPlaceholder />
         )}
+        {isAfterFight ? (
+          <Button
+            onClick={() => clearArena()}
+            disabled={pokemonsInArena.length === 0}
+          >
+            Opuść Arenę
+          </Button>
+        ) : (
+          <Button
+            onClick={() => handleFight()}
+            disabled={pokemonsInArena.length < 2}
+          >
+            Walcz!
+          </Button>
+        )}
         {slot2 ? (
-          <PokemonCard data={slot2} showRemoveFromArena={true} />
+          <PokemonCard
+            data={slot2}
+            showRemoveFromArena={true}
+            className={clsx(FIGHT_TRANSITION, getCardClass(slot2))}
+          />
         ) : (
           <ArenaPlaceholder />
         )}
       </div>
-      <Button
-        onClick={() => handleFight()}
-        disabled={pokemonsInArena.length < 2}
-      >
-        Walcz!
-      </Button>
-      <Button
-        onClick={() => clearArena()}
-        disabled={pokemonsInArena.length === 0}
-      >
-        Wyczyść Arene
-      </Button>
-    </>
+    </div>
   );
 };

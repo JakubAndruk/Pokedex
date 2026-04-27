@@ -5,7 +5,6 @@ export const Home = () => {
   const { pokemons, isLoading, error } = usePokemonContext();
   return (
     <>
-      <div>Home</div>
       <PokemonList pokemons={pokemons} isLoading={isLoading} error={error} />
     </>
   );

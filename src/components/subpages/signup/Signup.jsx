@@ -1,15 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signupSchema } from "../../../services/signupSchema";
-import { useSnackbar } from "notistack";
+
 import axios from "axios";
 import bcrypt from "bcryptjs";
 import { JSON_Server_URL } from "../../../services/api";
 import { useAuthContext } from "../../../context/AuthContext";
 import { Button } from "../../shared/Button";
+import { InputForm } from "../../shared/InputForm";
+import SnackbarUtils from "../../../services/SnackBarUtils";
+import { LoginSignupCatchError } from "../../shared/LoginSignupCatchError";
 
 export const Signup = () => {
-  const { enqueueSnackbar } = useSnackbar();
   const { login } = useAuthContext();
 
   const {
@@ -34,9 +36,7 @@ export const Signup = () => {
       );
 
       if (existingUsers.length > 0) {
-        enqueueSnackbar("Użytkownik z tym emailem już istnieje", {
-          variant: "warning",
-        });
+        SnackbarUtils.warning("Użytkownik z tym emailem już istnieje");
         return;
       }
 
@@ -52,75 +52,46 @@ export const Signup = () => {
 
       login(newUser);
 
-      enqueueSnackbar(
+      SnackbarUtils.success(
         `Witaj, ${newUser.name}! Rejestracja zakończona sukcesem!`,
-        {
-          variant: "success",
-        },
       );
 
       reset();
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        enqueueSnackbar("Server conneted error. Check JSON Server.", {
-          variant: "error",
-        });
-      } else {
-        enqueueSnackbar("Unexpected error.", { variant: "error" });
-      }
-
-      console.log(error);
+      LoginSignupCatchError(error);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="bg-amber-100 flex justify-center gap-4">
-        <label htmlFor="name">Imię:</label>
-        <input
-          id="name"
-          type="text"
-          {...register("name")}
-          className="border border-gray-800"
-        />
-        {errors.name && <p className="text-red-800">{errors.name.message}</p>}
-      </div>
-      <div className="bg-amber-100 flex justify-center gap-4">
-        <label htmlFor="email">Email:</label>
-        <input
-          id="email"
-          type="email"
-          {...register("email")}
-          className="border border-gray-800"
-        />
-        {errors.email && <p className="text-red-800">{errors.email.message}</p>}
-      </div>
-      <div className="bg-amber-100 flex justify-center gap-4">
-        <label htmlFor="password">Hasło:</label>
-        <input
-          id="password"
-          type="password"
-          {...register("password")}
-          className="border border-gray-800"
-        />
-        {errors.password && (
-          <p className="text-red-800">{errors.password.message}</p>
-        )}
-      </div>
-      <div className="bg-amber-100 flex justify-center gap-4">
-        <label htmlFor="repeatPassword">Powtórz hasło:</label>
-        <input
-          id="repeatPassword"
-          type="text"
-          {...register("repeatPassword")}
-          className="border border-gray-800"
-        />
-        {errors.repeatPassword && (
-          <p className="text-red-800">{errors.repeatPassword.message}</p>
-        )}
-      </div>
-      <div className="bg-amber-100 flex justify-center gap-4">
-        <Button type="submit" disabled={isSubmitting}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="relative flex flex-col gap-4 items-center"
+    >
+      <InputForm id="name" type="text" errors={errors} register={register}>
+        Imię:
+      </InputForm>
+      <InputForm id="email" type="email" errors={errors} register={register}>
+        Email:
+      </InputForm>
+      <InputForm
+        id="password"
+        type="password"
+        errors={errors}
+        register={register}
+      >
+        Hasło:
+      </InputForm>
+      <InputForm
+        id="repeatPassword"
+        type="password"
+        errors={errors}
+        register={register}
+      >
+        Powtórz hasło:
+      </InputForm>
+
+      <div className=" flex justify-center ">
+        <Button type="submit" disabled={isSubmitting} className="w-184">
           {isSubmitting ? "Rejestrowanie..." : "Zarejestruj się"}
         </Button>
       </div>

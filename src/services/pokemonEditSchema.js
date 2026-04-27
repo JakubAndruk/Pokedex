@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const pokemonEditSchema = z.object({
-  weight: z.coerce.number().min(1, "Waga jest wymaganea"),
+  weight: z.coerce.number().min(1, "Waga jest wymagana"),
   height: z.coerce.number().min(1, "Wzrost jest wymagany"),
   base_experience: z.coerce.number().min(1, "Doświadczenie jest wymagane"),
 });
