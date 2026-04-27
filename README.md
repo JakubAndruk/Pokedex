@@ -1,16 +1,58 @@
-# React + Vite
+# Pokedex App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+It is an app to watch pokemons. You can see 150 original pokemons.
 
-Currently, two official plugins are available:
+## Getting Started
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+To start app open two terminals. In first use command `npm run server` to start server. In second use command `npm run dev` to start app.
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+As a guest you can see pokemons and search it by name. You can create an account and get extra features:
 
-## Expanding the ESLint configuration
+1.  edit pokemon
+2.  create a new pokemon
+3.  see ranking page and sort them
+4.  add pokemons you like to your favourites and see them in a separate tab
+5.  add pokemons to fight arena and do a battle
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Conventions
+
+### Folder Structure
+
+├───components
+│ ├───shared # Reusable components
+│ └───subpages # Page-level components
+│ ├───arena  
+│ ├───edit
+│ ├───favourites
+│ ├───home
+│ ├───login
+│ ├───ranking
+│ └───signup
+├───context # React Context
+├───hooks # Custom React Hooks
+├───icons # Icons
+└───services # API calls and utility functions
+
+### Naming
+
+- Components: PascalCase
+- Files: camelCase
+- Tailwind and clsx classes in the component file
+
+### Libraries use
+
+- **React** - UI framework
+- **React Router DOM** - routing
+- **React Hook Form + Zod + @hookform/resolvers ** - forms and validation
+- **Tailwind CSS V4 ** - styling
+- **clsx** - conditional class names
+- **Axios** - HTTP requests
+- **JSON-server** - mock REST API
+- **notistack** - notifications
+- **bcryptjs** - password hashing
+
+### ⚠️ Passwords & Security
+
+Passwords are hashed using **bcryptjs** before stored in JSON Server. This setup is for development and testing purposes only. Storing user data in JSON server is not suitable for production. In a real application this should be replaced with a proper backend and a secured database.
