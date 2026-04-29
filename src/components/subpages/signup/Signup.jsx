@@ -1,7 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { signupSchema } from "../../../services/signupSchema";
-
 import axios from "axios";
 import bcrypt from "bcryptjs";
 import { JSON_Server_URL } from "../../../services/api";

@@ -12,10 +12,7 @@ export const Navbar = () => {
   const { isDark, toggleTheme } = useThemeContext();
 
   return (
-    <nav
-      className=" h-18
-     mb-4 flex justify-between"
-    >
+    <nav className=" h-18 mb-4 flex justify-between">
       <NavLink to={`/`}>
         <img
           src={pokemonLogo}

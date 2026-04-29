@@ -21,7 +21,7 @@ export const PokemonPage = () => {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      <Placeholder className={"w-4/5 h-120 flex relative justify-around gap-8"}>
+      <Placeholder className={"w-3/4 h-120 flex relative justify-around gap-8"}>
         {user && <FavouritesButton pokemon={pokemon} />}
         {user && <ArenaButton pokemon={pokemon} />}
 

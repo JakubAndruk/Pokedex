@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import { InputForm } from "../../shared/InputForm";
 import SnackbarUtils from "../../../services/SnackBarUtils";
+import { IMAGES_URL } from "../../../services/api";
 
 export const CreatePokemonForm = () => {
   const { pokemons, refreshPokemons } = usePokemonContext();
@@ -36,7 +37,7 @@ export const CreatePokemonForm = () => {
 
   const nextID = Math.max(...pokemons.map((p) => p.id)) + 1;
 
-  const previewUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${previewNumber}.svg`;
+  const previewURL = `${IMAGES_URL}/${previewNumber}.svg`;
 
   if (!images)
     return <LoadingErrorInfo error={imagesError} isLoading={isImagesLoading} />;
@@ -62,7 +63,7 @@ export const CreatePokemonForm = () => {
     const newPokemon = {
       ...data,
       id: nextID,
-      sprite: previewUrl,
+      sprite: previewURL,
       fromApi: false,
       ability: ability.ability,
       wins: 0,
@@ -128,7 +129,7 @@ export const CreatePokemonForm = () => {
               ◂
             </Button>
             <img
-              src={previewUrl}
+              src={previewURL}
               className={clsx(
                 "h-20 w-22",
                 { grayscale: isCurrentSpriteUsed },

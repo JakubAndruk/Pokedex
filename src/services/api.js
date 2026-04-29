@@ -5,3 +5,5 @@ export const API_IMAGES_URL =
 
 export const USERS_URL = `${JSON_Server_URL}/users`;
 export const POKEMONS_URL = `${JSON_Server_URL}/pokemons`;
+export const IMAGES_URL =
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world";
