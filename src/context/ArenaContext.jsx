@@ -97,4 +97,9 @@ export const ArenaProvider = ({ children }) => {
   );
 };
 
-export const useArenaContext = () => useContext(ArenaContext);
+export const useArenaContext = () => {
+  const context = useContext(ArenaContext);
+  if (!context)
+    throw new Error("useArenaContext must be used within ArenaProvider");
+  return context;
+};

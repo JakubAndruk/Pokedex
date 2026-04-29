@@ -76,4 +76,11 @@ export const FavouritesProvider = ({ children }) => {
     </FavouritesContext.Provider>
   );
 };
-export const useFavouritesContext = () => useContext(FavouritesContext);
+export const useFavouritesContext = () => {
+  const context = useContext(FavouritesContext);
+  if (!context)
+    throw new Error(
+      "useFavouritesContext must be used within FavouritesProvider",
+    );
+  return context;
+};

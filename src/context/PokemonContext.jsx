@@ -67,4 +67,9 @@ export const PokemonProvider = ({ children }) => {
   );
 };
 
-export const usePokemonContext = () => useContext(PokemonContext);
+export const usePokemonContext = () => {
+  const context = useContext(PokemonContext);
+  if (!context)
+    throw new Error("usePokemonContext must be used within PokemonProvider");
+  return context;
+};
