@@ -7,6 +7,7 @@ import { Placeholder } from "./Placeholder";
 import { PokemonName } from "./PokemonName";
 import { PokemonInfo } from "./PokemonInfo";
 import { Button } from "./Button";
+import { WinLoseStats } from "./WinLoseStats";
 
 export const PokemonPage = () => {
   const { id } = useParams();
@@ -24,6 +25,9 @@ export const PokemonPage = () => {
       <Placeholder className={"w-3/4 h-120 flex relative justify-around gap-8"}>
         {user && <FavouritesButton pokemon={pokemon} />}
         {user && <ArenaButton pokemon={pokemon} />}
+        {user && (pokemon.wins > 0 || pokemon.loses > 0) && (
+          <WinLoseStats data={pokemon} />
+        )}
 
         <div className="flex flex-col justify-center">
           <img src={pokemon.sprite} alt={pokemon.name} className="h-96" />

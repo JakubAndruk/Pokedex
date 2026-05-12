@@ -17,7 +17,7 @@ export const ArenaButton = ({ pokemon }) => {
       <div
         onClick={handleArena}
         className={clsx(
-          "absolute top-0 left-2 cursor-pointer text-3xl",
+          "absolute top-0 right-2 cursor-pointer text-3xl",
           !isInArena(pokemon.id) && "text-gray-900 dark:text-gray-300",
           isInArena(pokemon.id) && "text-red-800",
         )}
@@ -27,7 +27,7 @@ export const ArenaButton = ({ pokemon }) => {
 
       <div
         className={clsx(
-          "absolute top-1 left-9 cursor-pointer text-xl",
+          "absolute top-1 right-9 cursor-pointer text-xl",
           !isInArena(pokemon.id) && "text-gray-900 dark:text-gray-300",
           isInArena(pokemon.id) && "text-red-800",
         )}

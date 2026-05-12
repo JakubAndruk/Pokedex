@@ -1,5 +1,4 @@
 import { useSnackbar } from "notistack";
-import { useEffect } from "react";
 
 let snackbarRef = null;
 
@@ -25,8 +24,6 @@ const SnackbarUtils = {
     this.toast(msg, "error");
   },
   toast(msg, variant = "default") {
-    console.log("snackbarRef", snackbarRef);
-
     snackbarRef.enqueueSnackbar(msg, { variant, autoHideDuration: 1500 });
   },
 };

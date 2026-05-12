@@ -35,11 +35,14 @@ export const Arena = () => {
   const handleFight = async () => {
     const getPower = (p) => p.base_experience * p.weight;
 
-    if (getPower(slot1) === getPower(slot2))
-      return SnackbarUtils.success(`Remis!`);
+    if (getPower(slot1) === getPower(slot2)) {
+      SnackbarUtils.success(`Remis!`);
+      setIsAfterFight(true);
+      return;
+    }
 
     const [winner, loser] =
-      getPower(slot1) > getPower(slot1) ? [slot1, slot2] : [slot2, slot1];
+      getPower(slot1) > getPower(slot2) ? [slot1, slot2] : [slot2, slot1];
 
     await pokemonToServer(winner, {
       base_experience: winner.base_experience + 10,

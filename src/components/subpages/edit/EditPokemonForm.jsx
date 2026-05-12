@@ -31,8 +31,6 @@ export const EditPokemonForm = () => {
   if (!pokemon) return <LoadingErrorInfo error={error} isLoading={isLoading} />;
 
   const onSubmit = async (data) => {
-    console.log("onSubmit wywołany", data);
-
     await pokemonToServer(pokemon, data);
     await refreshPokemons();
     SnackbarUtils.success(

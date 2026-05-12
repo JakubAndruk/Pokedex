@@ -21,7 +21,7 @@ export const PokemonList = ({ pokemons, isLoading, error }) => {
       <div className="flex justify-center ">
         <SearchBar value={searchQuery} onChange={setSearchQuery} />
       </div>
-      <div className="flex flex-wrap p-4 gap-4 max-w-[90%] mx-auto w-full">
+      <div className="flex flex-wrap p-4 gap-4 lg:max-w-[90%] md:max-w-[100%]  mx-auto w-full">
         {paginatedPokemons.map((pokemon) => (
           <PokemonCard key={pokemon.id} data={pokemon} />
         ))}

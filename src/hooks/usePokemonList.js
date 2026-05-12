@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-
-const PAGE_SIZE = 15;
+import { PAGE_SIZE } from "../services/api";
 
 export const usePokemonList = (pokemons) => {
   const [currentPage, setCurrentPage] = useState(1);

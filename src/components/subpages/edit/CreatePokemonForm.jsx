@@ -5,18 +5,23 @@ import { usePokemonContext } from "../../../context/PokemonContext";
 import { Button } from "../../shared/Button";
 import { LoadingErrorInfo } from "../../shared/LoadingErrorInfo";
 import { savePokemonToServer } from "../../../services/pokemonToServerService";
-import { useImagesContext } from "../../../context/ImagesContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import { InputForm } from "../../shared/InputForm";
 import SnackbarUtils from "../../../services/SnackBarUtils";
 import { IMAGES_URL } from "../../../services/api";
+import { usePokemonImages } from "../../../hooks/usePokemonImages";
 
 export const CreatePokemonForm = () => {
   const { pokemons, refreshPokemons } = usePokemonContext();
-  const { images, isImagesLoading, imagesError } = useImagesContext();
+  const { images, isLoading, imagesError, fetchPokemonImages } =
+    usePokemonImages();
   const [previewNumber, setPreviewNumber] = useState(151);
+
+  useEffect(() => {
+    fetchPokemonImages();
+  }, [fetchPokemonImages]);
 
   const navigate = useNavigate();
 
@@ -39,8 +44,8 @@ export const CreatePokemonForm = () => {
 
   const previewURL = `${IMAGES_URL}/${previewNumber}.svg`;
 
-  if (!images)
-    return <LoadingErrorInfo error={imagesError} isLoading={isImagesLoading} />;
+  if (isLoading) return <LoadingErrorInfo isLoading={isLoading} />;
+  if (imagesError) return <LoadingErrorInfo error={imagesError} />;
 
   const usedSpriteIds = pokemons
     .filter((p) => !p.fromApi)
@@ -65,7 +70,7 @@ export const CreatePokemonForm = () => {
       id: nextID,
       sprite: previewURL,
       fromApi: false,
-      ability: ability.ability,
+      ability: ability.ability ?? "Unknown",
       wins: 0,
       loses: 0,
     };

@@ -7,7 +7,7 @@ export const Button = ({
   disabled = false,
   isActive = false,
   hidden = false,
-  className = "min-w-30",
+  className = "lg:min-w-30 md:min-w-20 sm:min-w-20",
 }) => {
   return (
     <button

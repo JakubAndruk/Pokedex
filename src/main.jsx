@@ -8,7 +8,6 @@ import { PokemonProvider } from "./context/PokemonContext.jsx";
 import { SnackbarProvider } from "notistack";
 import { FavouritesProvider } from "./context/FavouritesContext.jsx";
 import { ArenaProvider } from "./context/ArenaContext.jsx";
-import { ImagesProvider } from "./context/ImagesContext.jsx";
 import { ThemeProvider } from "./context/ThemeContext.jsx";
 import { SnackbarUtilsConfigurator } from "./services/SnackBarUtils.js";
 
@@ -19,13 +18,11 @@ createRoot(document.getElementById("root")).render(
       <ThemeProvider>
         <AuthProvider>
           <PokemonProvider>
-            <ImagesProvider>
-              <FavouritesProvider>
-                <ArenaProvider>
-                  <App />
-                </ArenaProvider>
-              </FavouritesProvider>
-            </ImagesProvider>
+            <FavouritesProvider>
+              <ArenaProvider>
+                <App />
+              </ArenaProvider>
+            </FavouritesProvider>
           </PokemonProvider>
         </AuthProvider>
       </ThemeProvider>
