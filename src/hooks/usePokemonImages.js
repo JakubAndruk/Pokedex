@@ -22,11 +22,12 @@ export const usePokemonImages = () => {
         sprite:
           item.data.sprites.other.dream_world.front_default ??
           item.data.sprites.front_default,
-        ability: item.data.abilities[0].ability.name,
+        ability: item.data.abilities[0].ability.name ?? "Unknown",
       }));
 
       setImages(apiImages);
     } catch (error) {
+      console.error("Error fetching Pokémon images:", error);
       setImagesError(error);
     } finally {
       setIsLoading(false);
