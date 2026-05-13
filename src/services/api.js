@@ -1,0 +1,10 @@
+export const API_URL = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=150";
+export const JSON_Server_URL = "http://localhost:3000";
+export const API_IMAGES_URL =
+  "https://pokeapi.co/api/v2/pokemon/?offset=150&limit=875";
+
+export const USERS_URL = `${JSON_Server_URL}/users`;
+export const POKEMONS_URL = `${JSON_Server_URL}/pokemons`;
+export const IMAGES_URL =
+  "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world";
+export const PAGE_SIZE = 15;
